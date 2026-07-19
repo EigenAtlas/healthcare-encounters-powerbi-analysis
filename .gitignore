@@ -1,0 +1,11 @@
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Power BI local/cache files
+**/.pbi/cache.abf
+**/.pbi/localSettings.json
+
+# Temporary files
+*.tmp
+~$*

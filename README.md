@@ -12,19 +12,19 @@ The goal was to build a portfolio-ready dashboard that answers practical healthc
 
 This page summarizes overall encounter volume, unique patients, encounter duration, and encounter class mix over time.
 
-![Encounter Overview](images/encounter-overview.png)
+![Encounter Overview](Images/encounter-overview.png)
 
 ### 2. Cost & Coverage
 
 This page compares selected payer average encounter cost against the all-payer benchmark. It also highlights common procedures and highest-cost procedures for the selected payer.
 
-![Cost & Coverage](images/cost-coverage.png)
+![Cost & Coverage](Images/cost-coverage.png)
 
 ### 3. Patient Behavior
 
 This page analyzes unique patients, 30-day repeat encounters, repeat encounter rate, and patients with the highest repeat encounter counts.
 
-![Patient Behavior](images/patient-behavior.png)
+![Patient Behavior](Images/patient-behavior.png)
 
 ## Key Metrics
 

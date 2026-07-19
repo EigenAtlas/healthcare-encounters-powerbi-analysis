@@ -1,0 +1,72 @@
+table payers
+	lineageTag: 86119c85-38c9-46a5-a5a6-205a45ae77f0
+
+	column Id
+		dataType: string
+		lineageTag: 7a207d4d-bc47-4a67-a09d-9d8dacd3f375
+		summarizeBy: none
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column NAME
+		dataType: string
+		lineageTag: 08b8181b-b098-4054-a4a4-e8b8b158d8ff
+		summarizeBy: none
+		sourceColumn: NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column ADDRESS
+		dataType: string
+		lineageTag: 9244fc47-8931-439a-9a0c-2e1a17d5558a
+		summarizeBy: none
+		sourceColumn: ADDRESS
+
+		annotation SummarizationSetBy = Automatic
+
+	column CITY
+		dataType: string
+		lineageTag: 23928d27-0ebe-4de6-9206-3c634b2743a5
+		summarizeBy: none
+		sourceColumn: CITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column STATE_HEADQUARTERED
+		dataType: string
+		lineageTag: 66f9007a-c136-468e-911b-794f3e6078b7
+		summarizeBy: none
+		sourceColumn: STATE_HEADQUARTERED
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZIP
+		dataType: int64
+		formatString: 0
+		lineageTag: c7f25c2f-85fa-47f3-97d6-e17097e413dd
+		summarizeBy: none
+		sourceColumn: ZIP
+
+		annotation SummarizationSetBy = Automatic
+
+	column PHONE
+		dataType: string
+		lineageTag: 89ade476-8c18-4ad5-ac70-497218f57e67
+		summarizeBy: none
+		sourceColumn: PHONE
+
+		annotation SummarizationSetBy = Automatic
+
+	partition payers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\kenee\Downloads\Hospital+Patient+Records\payers.csv"),[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Id", type text}, {"NAME", type text}, {"ADDRESS", type text}, {"CITY", type text}, {"STATE_HEADQUARTERED", type text}, {"ZIP", Int64.Type}, {"PHONE", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

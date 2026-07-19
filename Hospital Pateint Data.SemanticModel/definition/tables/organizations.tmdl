@@ -1,0 +1,84 @@
+table organizations
+	lineageTag: 47d53e29-0037-4bb9-9a72-321b85b995a4
+
+	column Id
+		dataType: string
+		lineageTag: 4a8827eb-518d-4442-b5b6-4256332de06d
+		summarizeBy: none
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column NAME
+		dataType: string
+		lineageTag: e059099d-317f-4eef-b609-248609cdb816
+		summarizeBy: none
+		sourceColumn: NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column ADDRESS
+		dataType: string
+		lineageTag: 2f7db389-fa09-411f-959c-af6e6927f2ad
+		summarizeBy: none
+		sourceColumn: ADDRESS
+
+		annotation SummarizationSetBy = Automatic
+
+	column CITY
+		dataType: string
+		lineageTag: ad8917f3-cf33-48a2-8148-ab580097f27d
+		summarizeBy: none
+		sourceColumn: CITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column STATE
+		dataType: string
+		lineageTag: 67ff0574-a4c1-41f5-913d-9471a4dca5c0
+		summarizeBy: none
+		sourceColumn: STATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZIP
+		dataType: int64
+		formatString: 0
+		lineageTag: e3a37436-b18d-43f0-b75b-3c80538ef755
+		summarizeBy: none
+		sourceColumn: ZIP
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAT
+		dataType: double
+		lineageTag: fe39ba84-df60-4eeb-a51f-5e5dc0d49673
+		summarizeBy: none
+		sourceColumn: LAT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LON
+		dataType: double
+		lineageTag: 84685f08-8e5e-4d9f-8e47-29a45bbaa734
+		summarizeBy: none
+		sourceColumn: LON
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition organizations = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\kenee\Downloads\Hospital+Patient+Records\organizations.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Id", type text}, {"NAME", type text}, {"ADDRESS", type text}, {"CITY", type text}, {"STATE", type text}, {"ZIP", Int64.Type}, {"LAT", type number}, {"LON", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

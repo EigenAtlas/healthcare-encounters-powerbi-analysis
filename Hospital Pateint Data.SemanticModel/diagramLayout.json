@@ -1,0 +1,125 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 419,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 454
+          },
+          "nodeIndex": "procedures",
+          "nodeLineageTag": "6e9cfc0d-c361-4f01-b4e4-f83ff932ab06",
+          "size": {
+            "height": 305,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1229,
+            "y": 132
+          },
+          "nodeIndex": "data_dictionary",
+          "nodeLineageTag": "d6ca9c90-9b9e-426e-8ee5-cb907cabc36b",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 526,
+            "y": 320
+          },
+          "nodeIndex": "encounters",
+          "nodeLineageTag": "ed0e78fd-2060-421d-9a27-d0c05e228b1b",
+          "size": {
+            "height": 451,
+            "width": 281
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 485,
+            "y": 0
+          },
+          "nodeIndex": "organizations",
+          "nodeLineageTag": "47d53e29-0037-4bb9-9a72-321b85b995a4",
+          "size": {
+            "height": 266,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 185,
+            "y": 0
+          },
+          "nodeIndex": "patients",
+          "nodeLineageTag": "25e05436-69df-4de8-8562-b29b04c8c04e",
+          "size": {
+            "height": 360,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 909,
+            "y": 0
+          },
+          "nodeIndex": "payers",
+          "nodeLineageTag": "86119c85-38c9-46a5-a5a6-205a45ae77f0",
+          "size": {
+            "height": 273,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1487,
+            "y": 239.5
+          },
+          "nodeIndex": "Measure Table",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1017,
+            "y": 297.5
+          },
+          "nodeIndex": "Dim_dates",
+          "nodeLineageTag": "594d5ffc-7325-4827-8eeb-0011a2ae4711",
+          "size": {
+            "height": 454,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

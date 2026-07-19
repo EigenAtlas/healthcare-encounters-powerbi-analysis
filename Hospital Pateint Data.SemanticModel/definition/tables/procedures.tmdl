@@ -1,0 +1,91 @@
+table procedures
+	lineageTag: 6e9cfc0d-c361-4f01-b4e4-f83ff932ab06
+
+	column START
+		dataType: string
+		lineageTag: 893c8b06-b0b8-4e1d-818b-87ebedd3dc3b
+		summarizeBy: none
+		sourceColumn: START
+
+		annotation SummarizationSetBy = Automatic
+
+	column STOP
+		dataType: string
+		lineageTag: 4fc8976f-b7b9-4d2d-af89-19f4c5c838d8
+		summarizeBy: none
+		sourceColumn: STOP
+
+		annotation SummarizationSetBy = Automatic
+
+	column PATIENT
+		dataType: string
+		lineageTag: 50c6e0a5-97a3-42ae-80df-acceaf1a07f6
+		summarizeBy: none
+		sourceColumn: PATIENT
+
+		annotation SummarizationSetBy = Automatic
+
+	column ENCOUNTER
+		dataType: string
+		lineageTag: ca707319-f91b-4c31-9e39-99c6fdb3c4ad
+		summarizeBy: none
+		sourceColumn: ENCOUNTER
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODE
+		dataType: string
+		lineageTag: 34a5ed1e-3f30-442f-ad1e-fd2c0ba02794
+		summarizeBy: none
+		sourceColumn: CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRIPTION
+		dataType: string
+		lineageTag: bf13d3be-f9d5-43a9-93cb-35d2e349b9d1
+		summarizeBy: none
+		sourceColumn: DESCRIPTION
+
+		annotation SummarizationSetBy = Automatic
+
+	column BASE_COST
+		dataType: int64
+		formatString: 0
+		lineageTag: d826a26b-39e4-4e4d-81b7-743f26ca1ff2
+		summarizeBy: sum
+		sourceColumn: BASE_COST
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column REASONCODE
+		dataType: string
+		lineageTag: d60ea136-2867-4e45-b4e9-ad20c994c8e9
+		summarizeBy: none
+		sourceColumn: REASONCODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column REASONDESCRIPTION
+		dataType: string
+		lineageTag: 00fff5e1-cba9-44aa-b619-978b50abd89e
+		summarizeBy: none
+		sourceColumn: REASONDESCRIPTION
+
+		annotation SummarizationSetBy = Automatic
+
+	partition procedures = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\kenee\Downloads\Hospital+Patient+Records\procedures.csv"),[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+				in
+				    #"Promoted Headers"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

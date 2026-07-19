@@ -1,0 +1,202 @@
+table patients
+	lineageTag: 25e05436-69df-4de8-8562-b29b04c8c04e
+
+	column Id
+		dataType: string
+		lineageTag: df9eaec1-e555-417d-bb07-0d42454b3fb7
+		summarizeBy: none
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column BIRTHDATE
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 13a5c8cf-3fb1-4dbc-bdb5-8d0f71563abf
+		summarizeBy: none
+		sourceColumn: BIRTHDATE
+
+		variation Variation
+			isDefault
+			relationship: 0628556f-889e-41c2-a19c-bb331e621469
+			defaultHierarchy: LocalDateTable_dc3d9133-575f-42d7-ba4d-67580028ce52.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEATHDATE
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 153decf8-bcf8-4459-9776-c1b53a59ec7c
+		summarizeBy: none
+		sourceColumn: DEATHDATE
+
+		variation Variation
+			isDefault
+			relationship: 57efce1f-3c0f-490e-bcba-2c0cb6c5885a
+			defaultHierarchy: LocalDateTable_30c86519-d055-4f87-974e-2f2c73db204f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PREFIX
+		dataType: string
+		lineageTag: 1577a463-c396-45b0-b9a5-25adffb5ec42
+		summarizeBy: none
+		sourceColumn: PREFIX
+
+		annotation SummarizationSetBy = Automatic
+
+	column FIRST
+		dataType: string
+		lineageTag: 7f8d7c63-39a7-4f41-b721-07f3809ba846
+		summarizeBy: none
+		sourceColumn: FIRST
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST
+		dataType: string
+		lineageTag: 41242a57-068c-49ae-9f78-1fc9b0ae30da
+		summarizeBy: none
+		sourceColumn: LAST
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUFFIX
+		dataType: string
+		lineageTag: 43f10623-3621-4d74-9d80-f54843810acc
+		summarizeBy: none
+		sourceColumn: SUFFIX
+
+		annotation SummarizationSetBy = Automatic
+
+	column MAIDEN
+		dataType: string
+		lineageTag: 7f5e45f0-c918-4470-8da3-2c62f441d885
+		summarizeBy: none
+		sourceColumn: MAIDEN
+
+		annotation SummarizationSetBy = Automatic
+
+	column MARITAL
+		dataType: string
+		lineageTag: ed53e55a-2130-4c90-b1ec-e5be24312b47
+		summarizeBy: none
+		sourceColumn: MARITAL
+
+		annotation SummarizationSetBy = Automatic
+
+	column RACE
+		dataType: string
+		lineageTag: 0fda9292-26a1-417c-9632-459be474f99a
+		summarizeBy: none
+		sourceColumn: RACE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ETHNICITY
+		dataType: string
+		lineageTag: aab3a66c-d883-4cb0-aea3-c1eddb65193f
+		summarizeBy: none
+		sourceColumn: ETHNICITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column GENDER
+		dataType: string
+		lineageTag: 20d7aef1-b564-4350-a990-239195355b26
+		summarizeBy: none
+		sourceColumn: GENDER
+
+		annotation SummarizationSetBy = Automatic
+
+	column BIRTHPLACE
+		dataType: string
+		lineageTag: 3cb01803-1801-4659-b234-b5307dc0e9de
+		summarizeBy: none
+		sourceColumn: BIRTHPLACE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ADDRESS
+		dataType: string
+		lineageTag: 719925d5-1de4-4cc4-802d-5488928e205b
+		summarizeBy: none
+		sourceColumn: ADDRESS
+
+		annotation SummarizationSetBy = Automatic
+
+	column CITY
+		dataType: string
+		lineageTag: 2e14ec6d-3042-4f8b-b96f-1346974a546c
+		summarizeBy: none
+		sourceColumn: CITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column STATE
+		dataType: string
+		lineageTag: 6fefe3a0-dccf-482b-86b6-f069be9f9a9c
+		summarizeBy: none
+		sourceColumn: STATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNTY
+		dataType: string
+		lineageTag: ff3b3157-4d07-4d7b-8507-51ef23438874
+		summarizeBy: none
+		sourceColumn: COUNTY
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZIP
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a719fe5-aee6-4ee5-8cac-7cbe1c94d3e2
+		summarizeBy: sum
+		sourceColumn: ZIP
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAT
+		dataType: double
+		lineageTag: bfe63719-0daa-4b35-b951-ca98253c7db0
+		summarizeBy: sum
+		sourceColumn: LAT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LON
+		dataType: double
+		lineageTag: f0146b6f-088a-4073-9e30-b9d0c6a84cf1
+		summarizeBy: sum
+		sourceColumn: LON
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Full Name' = CONCATENATE(patients[FIRST], " "& patients[LAST])
+		lineageTag: 8266499e-d446-4c01-b96c-543d1edd8046
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition patients = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\kenee\Downloads\Hospital+Patient+Records\patients.csv"),[Delimiter=",", Columns=20, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Id", type text}, {"BIRTHDATE", type date}, {"DEATHDATE", type date}, {"PREFIX", type text}, {"FIRST", type text}, {"LAST", type text}, {"SUFFIX", type text}, {"MAIDEN", type text}, {"MARITAL", type text}, {"RACE", type text}, {"ETHNICITY", type text}, {"GENDER", type text}, {"BIRTHPLACE", type text}, {"ADDRESS", type text}, {"CITY", type text}, {"STATE", type text}, {"COUNTY", type text}, {"ZIP", Int64.Type}, {"LAT", type number}, {"LON", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

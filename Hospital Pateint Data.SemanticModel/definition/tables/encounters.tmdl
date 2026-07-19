@@ -1,0 +1,239 @@
+table encounters
+	lineageTag: ed0e78fd-2060-421d-9a27-d0c05e228b1b
+
+	column Id
+		dataType: string
+		lineageTag: 66d65be0-97a5-45b1-acc0-41918ec75377
+		summarizeBy: none
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column START
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 633c0d01-07a9-40e1-b5c8-0d8f70a64c4e
+		summarizeBy: none
+		sourceColumn: START
+
+		variation Variation
+			isDefault
+			relationship: baa4e65b-f23c-4316-a65b-c73d6e2342f3
+			defaultHierarchy: LocalDateTable_f08dc09b-5a73-44b6-bae4-14bf3dcdb195.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column STOP
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a50c3464-fcf0-4f33-bf42-c7037c5a2095
+		summarizeBy: none
+		sourceColumn: STOP
+
+		variation Variation
+			isDefault
+			relationship: 178f647e-afa0-4ffa-b352-266ef2129c4b
+			defaultHierarchy: LocalDateTable_8800bd24-db07-42c0-8e1d-0e08745d97cd.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column PATIENT
+		dataType: string
+		lineageTag: 6270fbb8-eeaa-4d5b-bf74-10a99b18e237
+		summarizeBy: none
+		sourceColumn: PATIENT
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORGANIZATION
+		dataType: string
+		lineageTag: a447e272-5fbf-4ab8-b254-c8cce382e9fe
+		summarizeBy: none
+		sourceColumn: ORGANIZATION
+
+		annotation SummarizationSetBy = Automatic
+
+	column PAYER
+		dataType: string
+		lineageTag: a8c48dbe-a6ee-4c6f-8176-e1361554fa26
+		summarizeBy: none
+		sourceColumn: PAYER
+
+		annotation SummarizationSetBy = Automatic
+
+	column ENCOUNTERCLASS
+		dataType: string
+		lineageTag: 63e67679-2412-4b4b-a399-96408f949044
+		summarizeBy: none
+		sourceColumn: ENCOUNTERCLASS
+
+		annotation SummarizationSetBy = Automatic
+
+	column CODE
+		dataType: int64
+		formatString: 0
+		lineageTag: a84f6838-d71e-4eba-876f-0b84bd5db206
+		summarizeBy: sum
+		sourceColumn: CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DESCRIPTION
+		dataType: string
+		lineageTag: 5b6ae4d1-3ae9-4d44-b92d-078b1b06ea89
+		summarizeBy: none
+		sourceColumn: DESCRIPTION
+
+		annotation SummarizationSetBy = Automatic
+
+	column BASE_ENCOUNTER_COST
+		dataType: double
+		lineageTag: 212b50d7-bf67-4e07-a438-b0c5772d29a1
+		summarizeBy: sum
+		sourceColumn: BASE_ENCOUNTER_COST
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TOTAL_CLAIM_COST
+		dataType: double
+		lineageTag: a7006f17-c8fd-4897-b6f5-9441a393c99f
+		summarizeBy: sum
+		sourceColumn: TOTAL_CLAIM_COST
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAYER_COVERAGE
+		dataType: double
+		lineageTag: 5d72e68d-a59c-4f63-abc1-ca6327ab6985
+		summarizeBy: sum
+		sourceColumn: PAYER_COVERAGE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REASONCODE
+		dataType: int64
+		formatString: 0
+		lineageTag: ee72eb3e-c5e4-4f91-b2d2-bda4b57ddb83
+		summarizeBy: sum
+		sourceColumn: REASONCODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column REASONDESCRIPTION
+		dataType: string
+		lineageTag: e4b9e6be-9e89-4bd4-8454-b3a1be3f6f1e
+		summarizeBy: none
+		sourceColumn: REASONDESCRIPTION
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'start date' = encounters[START]
+		formatString: Long Date
+		lineageTag: 2c38ddf1-096f-4082-a80c-c3382dbe90b4
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 390e7282-6c41-421f-b5e8-62f11c23e87f
+			defaultHierarchy: LocalDateTable_75fae2b2-6016-47bb-ae7c-d5f18313b2dc.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'end date' = encounters[STOP]
+		formatString: Long Date
+		lineageTag: 84303540-5609-49c9-b9e1-51e98141fe3b
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 6f4ccce7-24ec-4b21-b2dd-0842a4b5ef35
+			defaultHierarchy: LocalDateTable_994f8135-cf50-455b-9369-7c36f5eeec68.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'start dated'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 48c9b54a-f8a2-4c28-a184-d871691a41d2
+		summarizeBy: none
+		sourceColumn: start dated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'time diff (Mins)' = DATEDIFF(encounters[start date],encounters[end date],MINUTE)
+		formatString: 0
+		lineageTag: a2c2c2bb-343a-4d9e-8b15-125d3e04bc1e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'over 24hr' = IF(encounters[time diff (Mins)]>1440,"Yes","No")
+		lineageTag: 14ffcd07-4fca-4238-a03c-314e61759773
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Readmitted Within 30 Days' =
+			
+			VAR CurrentPatient =
+			    encounters[PATIENT]
+			VAR CurrentDischarge =
+			    encounters[end date]
+			VAR NextEncounter =
+			    MINX(
+			        FILTER(
+			            ALL(encounters),
+			            encounters[PATIENT] = CurrentPatient
+			                && encounters[start date] > CurrentDischarge
+			        ),
+			        encounters[start date]
+			    )
+			RETURN
+			    IF(
+			        NOT ISBLANK(NextEncounter)
+			            && NextEncounter <= CurrentDischarge + 30,
+			        1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: c9a98b7a-d2a3-4901-8343-3e75c044a2e1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition encounters = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\kenee\Downloads\Hospital+Patient+Records\encounters.csv"),[Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Id", type text}, {"START", type datetime}, {"STOP", type datetime}, {"PATIENT", type text}, {"ORGANIZATION", type text}, {"PAYER", type text}, {"ENCOUNTERCLASS", type text}, {"CODE", Int64.Type}, {"DESCRIPTION", type text}, {"BASE_ENCOUNTER_COST", type number}, {"TOTAL_CLAIM_COST", type number}, {"PAYER_COVERAGE", type number}, {"REASONCODE", Int64.Type}, {"REASONDESCRIPTION", type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "Custom", each [START]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"Custom", type date}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type1",{{"Custom", "start date"}}),
+				    #"Added Custom1" = Table.AddColumn(#"Renamed Columns", "start dated", each [START]),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Custom1",{"start date"}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Removed Columns",{{"start dated", type date}})
+				in
+				    #"Changed Type2"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

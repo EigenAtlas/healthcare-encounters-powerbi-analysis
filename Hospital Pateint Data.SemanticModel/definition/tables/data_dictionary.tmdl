@@ -1,0 +1,38 @@
+table data_dictionary
+	lineageTag: d6ca9c90-9b9e-426e-8ee5-cb907cabc36b
+
+	column Column1
+		dataType: string
+		lineageTag: 3ebdf6cb-f5f3-4734-a3db-1f5d0c3bc3c8
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column2
+		dataType: string
+		lineageTag: 2f8f4371-e291-4cc9-8fcd-5db881573cfe
+		summarizeBy: none
+		sourceColumn: Column2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column3
+		dataType: string
+		lineageTag: fe5eab0b-e28f-487c-a755-c600cb26f7ad
+		summarizeBy: none
+		sourceColumn: Column3
+
+		annotation SummarizationSetBy = Automatic
+
+	partition data_dictionary = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\kenee\Downloads\Hospital+Patient+Records\data_dictionary.csv"),[Delimiter=",", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

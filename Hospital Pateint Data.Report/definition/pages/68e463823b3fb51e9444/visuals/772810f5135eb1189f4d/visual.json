@@ -1,0 +1,176 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "772810f5135eb1189f4d",
+  "position": {
+    "x": 64,
+    "y": 208,
+    "z": 1000,
+    "height": 464,
+    "width": 496,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "patients"
+                    }
+                  },
+                  "Property": "Full Name"
+                }
+              },
+              "queryRef": "patients.Full Name",
+              "nativeQueryRef": "Full Name",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Unique encounters"
+                }
+              },
+              "queryRef": "Measure Table.unquie encounters",
+              "nativeQueryRef": "Total encounters",
+              "displayName": "Total encounters"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "encounters"
+                        }
+                      },
+                      "Property": "Readmitted Within 30 Days"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(encounters.Readmitted Within 30 Days)",
+              "nativeQueryRef": "30-Day Repeat Encounters",
+              "displayName": "30-Day Repeat Encounters"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "patients.Full Name"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2bdc03c8479f19dc60c5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure Table"
+              }
+            },
+            "Property": "Unique encounters"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0daf2096d9d4714b598e",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "encounters"
+                  }
+                },
+                "Property": "Readmitted Within 30 Days"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b83cf3c058a580492113",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "patients"
+              }
+            },
+            "Property": "Full Name"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

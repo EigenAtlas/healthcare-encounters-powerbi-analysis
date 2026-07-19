@@ -1,0 +1,153 @@
+table 'Measure Table'
+	lineageTag: 09a3b74b-871d-491f-92de-5af6a1093f96
+
+	measure 'Count of encounters' = COUNT(encounters[Id])
+		formatString: #,0
+		lineageTag: 455e5947-5bd9-4552-9fac-4c997ae65e6d
+
+	measure 'pct of class' = DIVIDE(count(encounters[Id]),CALCULATE(COUNT(encounters[Id]),ALL(encounters[ENCOUNTERCLASS])))
+		lineageTag: ced3b2f5-909c-4d9a-b939-4bd6662be936
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% of encounters over 24 hrs' = DIVIDE(CALCULATE(COUNT(encounters[over 24hr]),FILTER(encounters,encounters[over 24hr]="Yes")),CALCULATE(COUNT(encounters[over 24hr]),REMOVEFILTERS(encounters[over 24hr])))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: fc14d075-7a29-47a3-bf16-278758a2888c
+
+	measure '% of encounters not over 24 hrs' = 1 - DIVIDE(CALCULATE(COUNT(encounters[over 24hr]),FILTER(encounters,encounters[over 24hr]="Yes")),CALCULATE(COUNT(encounters[over 24hr]),REMOVEFILTERS(encounters[over 24hr])))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ff797094-b33d-47fe-b428-c7b1b7af8a6d
+
+	measure 'Visits with no insurnace' = CALCULATE([Count of encounters],payers[NAME] = "NO_INSURANCE")
+		formatString: 0
+		lineageTag: 81e670ce-93ff-4664-85a9-de9c5bf6aad6
+
+	measure '% with no insurnace (Encounters)' = CALCULATE([Count of encounters],payers[NAME] = "NO_INSURANCE")/CALCULATE([Count of encounters],REMOVEFILTERS(payers[NAME]))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f7ca1ec4-c71c-4d78-beb3-c50d69cc8ebe
+
+	measure 'count procedures' = COUNT(procedures[ENCOUNTER])
+		formatString: 0
+		lineageTag: 0f89ff66-1522-4441-b6a0-100e681423a6
+
+	measure 'avg base cost' = AVERAGEX(procedures,procedures[BASE_COST])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 4a84d4d5-ca15-485b-a196-f4ee29b6ed8e
+
+	measure 'AVG Total cost of encounters' = AVERAGE(encounters[TOTAL_CLAIM_COST])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 5983bcfa-4f27-43b4-841a-8423449b08bc
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Unique pateints' = DISTINCTCOUNT(encounters[PATIENT])
+		formatString: 0
+		lineageTag: b9376b69-b3e3-4829-85fe-fb463ccef2f3
+
+	measure 'Count of patients that have been readmitted' = CALCULATE(DISTINCTCOUNT(encounters[PATIENT]),FILTER(encounters,encounters[Readmitted Within 30 Days]=1))
+		formatString: 0
+		lineageTag: ccee5481-5e3d-417c-9f2a-fb3caa792cd8
+
+	measure 'Readmission Encounters' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(encounters[ID]),
+			    encounters[Readmitted Within 30 Days] = 1
+			)
+		formatString: 0
+		lineageTag: 707455c2-69ae-47e2-93d1-29bf66fbd9a7
+
+	measure 'Top Readmission Patient Card' =
+			
+			VAR TopPatientTable =
+			    TOPN(
+			        1,
+			        ADDCOLUMNS(
+			            ALLSELECTED(encounters[PATIENT]),
+			            "@Readmissions", [Readmission Encounters]
+			        ),
+			        [@Readmissions],
+			        DESC,
+			        encounters[PATIENT],
+			        ASC
+			    )
+			VAR PatientID =
+			    CONCATENATEX(
+			        TopPatientTable,
+			        encounters[PATIENT],
+			        ", "
+			    )
+			VAR ReadmitCount =
+			    MAXX(
+			        TopPatientTable,
+			        [@Readmissions]
+			    )
+			RETURN
+			    PatientID
+			        & " — "
+			        & FORMAT(ReadmitCount, "#,0")
+			        & " readmissions"
+		lineageTag: cb3804dc-f476-4682-aa83-b7507ac5a426
+
+	measure 'Unique encounters' = DISTINCTCOUNT(encounters[Id])
+		formatString: 0
+		lineageTag: a9ac511c-435e-47b7-acb1-952af1d8d422
+
+	measure Rate = DIVIDE([Count of patients that have been readmitted],     [Unique pateints])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 77997c0f-0aa7-490c-805f-17ca4d5a7eb6
+
+	measure 'AVG TOTAL COST (All Insurance)' = CALCULATE([AVG Total cost of encounters],ALL(payers[NAME]))
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: d9549a65-7f12-423e-9286-e871a2645f10
+
+	measure 'Savings vs All Payers' =
+			
+			DIVIDE(
+			    [AVG TOTAL COST (All Insurance)] - [AVG Total cost of encounters],
+			    [AVG TOTAL COST (All Insurance)]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 51cc501b-25fb-4a7e-ac6f-271f99888df4
+
+	measure 'Difference % Color' =
+			
+			IF(
+			    [Savings vs All Payers] >= 0,
+			    "#1a7a1a",   -- green for savings / positive
+			    "#cc0000"    -- red for overage / negative
+			)
+		lineageTag: 13fbb543-4be6-429f-b320-af71aef6ba06
+
+	measure 'Hi cost Title' = IF(HASONEVALUE(payers[NAME]),SELECTEDVALUE(payers[NAME]) & "'s Highest Cost Procedures", "Mutiple Carriers Highest Cost Procedres")
+		lineageTag: b112ffa4-6aaa-4dc6-be46-24e7e8817068
+
+	measure 'frEQ TABLE' = IF(HASONEVALUE(payers[NAME]),SELECTEDVALUE(payers[NAME]) & "'s Most Common Procedures", "Mutiple Carriers Most Common Procedures")
+		lineageTag: 500e3f46-2dcf-425d-9edb-bc512e2fd2d3
+
+	measure 'ACG cost title' = IF(HASONEVALUE(payers[NAME]),SELECTEDVALUE(payers[NAME]) & ": Average Encounter Cost", "Mutiple Carrier Average Encounter Cost")
+		lineageTag: 15da4221-50c4-4b94-a3c1-df92087b1aee
+
+	measure 'Cost Difference Display' =
+			
+			ABS([Savings vs All Payers])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2069b75d-e7e1-4982-8668-659382b40884
+
+	column Column
+		formatString: 0
+		lineageTag: 7a66f089-fd03-4864-bd02-7462532ec5d4
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Measure Table' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 87bc0d694e6544b8b1e87b67689a54fb
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

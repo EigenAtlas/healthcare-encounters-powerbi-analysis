@@ -1,0 +1,207 @@
+table Dim_dates
+	lineageTag: 594d5ffc-7325-4827-8eeb-0011a2ae4711
+
+	measure 'test name' = CALCULATE(VALUES(payers[NAME]),ALL(payers[NAME]))
+		lineageTag: 74424339-e65d-417e-9126-66102ddeb129
+
+	measure 'test 2 name' =
+			
+			CALCULATE(
+			    AVERAGE(encounters[TOTAL_CLAIM_COST]),
+			    REMOVEFILTERS(payers[NAME])
+			)
+		lineageTag: a5701a54-d6d3-44fa-bf3e-f44a7c50695a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Difference Label' =
+			
+			SWITCH(
+			    TRUE(),
+			    [Savings vs All Payers] > 0, "% Below All-Payer Avg",
+			    [Savings vs All Payers] < 0, "% Above All-Payer Avg",
+			    "% Difference vs. Avg"
+			)
+		lineageTag: cace298d-392b-4c18-a831-4a76b9b6c48d
+
+	column Date
+		formatString: Long Date
+		lineageTag: a7961785-3d27-49e1-a787-33d9f77b9d08
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: a9762a81-ca7c-4447-89bf-47411baa10f5
+			defaultHierarchy: LocalDateTable_fda40667-4974-4460-8336-c2ae297b152b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: d1aa070d-940e-4f30-aaab-2c83a0ba7f90
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: 909a4a26-0ecc-41bc-b1b0-943284324990
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		lineageTag: fd19285c-6aa2-4064-93a2-4a07345fa433
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Name]
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Short'
+		lineageTag: da4f8dfa-26f3-4f55-b6fd-c2bebe3d64b4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Short]
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month-Year
+		lineageTag: 666d3c16-a7ba-4864-a633-f5b51ea3eae6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month-Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month-Year Sort'
+		formatString: 0
+		lineageTag: 7cf31a6f-e096-4d1b-b8cf-30dfc7d7fec8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month-Year Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		lineageTag: a17abac2-9354-48ac-907c-ed2e3963bba0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter-Year
+		lineageTag: 9cf65e86-10cb-4894-b860-51879100e4a7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter-Year]
+		sortByColumn: 'Quarter-Year Sort'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Number'
+		formatString: 0
+		lineageTag: 9ab0e77c-a937-4569-a1b7-9188bc6e09f7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Week Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Month'
+		formatString: 0
+		lineageTag: 6a2dca7e-59f9-46c9-b24b-1aca695d1940
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day of Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Number'
+		formatString: 0
+		lineageTag: 3ab9aa63-ba98-43b4-a4cd-e8991e24366f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day of Week Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Name'
+		lineageTag: c4487a59-d483-4f84-8a58-6e9eb0766c0a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week Name]
+		sortByColumn: 'Day of Week Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Short'
+		lineageTag: c5e9f191-04e1-4b37-b20a-8d023bdbf71c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week Short]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Weekend'
+		lineageTag: 8b67bda7-1618-4575-895e-7f6b7dbbc2d9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Is Weekend]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter-Year Sort' = (YEAR([Date]) * 10) + QUARTER([Date])
+		formatString: 0
+		lineageTag: 6ddd7fea-5b23-405c-ad6c-1daa7833f67a
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_dates = calculated
+		mode: import
+		source =
+				
+				-- 1. Find the earliest start date in either encounters or procedures
+				VAR MinYearVal = YEAR(MIN(MIN('encounters'[start date]), MIN('encounters'[start date])))
+				
+				-- 2. Find the latest stop date in either encounters or procedures
+				VAR MaxYearVal = YEAR(MAX(MAX('encounters'[STOP]), MAX('encounters'[STOP])))
+				
+				-- 3. Create a continuous range of full calendar years
+				VAR CalendarStart = DATE(MinYearVal, 1, 1)
+				VAR CalendarEnd = DATE(MaxYearVal, 12, 31)
+				
+				RETURN
+				ADDCOLUMNS(
+				    CALENDAR(CalendarStart, CalendarEnd),
+				    "Year", YEAR([Date]),
+				    "Month Number", MONTH([Date]),
+				    "Month Name", FORMAT([Date], "mmmm"),
+				    "Month Short", FORMAT([Date], "mmm"),
+				    "Month-Year", FORMAT([Date], "mmm yyyy"),
+				    "Month-Year Sort", YEAR([Date]) * 100 + MONTH([Date]),
+				    "Quarter", "Q" & QUARTER([Date]),
+				    "Quarter-Year", "Q" & QUARTER([Date]) & " " & YEAR([Date]),
+				    "Week Number", WEEKNUM([Date]),
+				    "Day of Month", DAY([Date]),
+				    "Day of Week Number", WEEKDAY([Date], 2), -- 1 (Mon) to 7 (Sun)
+				    "Day of Week Name", FORMAT([Date], "dddd"),
+				    "Day of Week Short", FORMAT([Date], "ddd"),
+				    "Is Weekend", IF(WEEKDAY([Date], 2) >= 6, "Weekend", "Weekday")
+				)
+
+	annotation PBI_Id = 537d649b299e46a29b86646bea6adb0a
+

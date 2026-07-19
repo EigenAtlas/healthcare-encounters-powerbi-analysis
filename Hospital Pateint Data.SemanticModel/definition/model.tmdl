@@ -1,0 +1,33 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["procedures","data_dictionary","encounters","organizations","patients","payers"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table procedures
+ref table DateTableTemplate_c0af9d8f-4f01-4b9b-8674-1f3eaa3d2ae3
+ref table data_dictionary
+ref table encounters
+ref table LocalDateTable_8800bd24-db07-42c0-8e1d-0e08745d97cd
+ref table organizations
+ref table patients
+ref table LocalDateTable_dc3d9133-575f-42d7-ba4d-67580028ce52
+ref table LocalDateTable_30c86519-d055-4f87-974e-2f2c73db204f
+ref table payers
+ref table 'Measure Table'
+ref table Dim_dates
+ref table LocalDateTable_994f8135-cf50-455b-9369-7c36f5eeec68
+ref table LocalDateTable_f08dc09b-5a73-44b6-bae4-14bf3dcdb195
+ref table LocalDateTable_75fae2b2-6016-47bb-ae7c-d5f18313b2dc
+ref table LocalDateTable_fda40667-4974-4460-8336-c2ae297b152b
+
+ref cultureInfo en-US
+
